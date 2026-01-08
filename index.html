@@ -1,62 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Camera Photo Animator</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-/* Neon glow button */
-.glow-button {
-    box-shadow: 0 0 10px #ff0080, 0 0 20px #ff0080, 0 0 30px #ff0080;
-    transition: 0.3s;
-}
-.glow-button:hover {
-    box-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff, 0 0 60px #ff00ff;
-    transform: scale(1.05);
-}
+  <meta charset="UTF-8">
+  <title>Kamera icazəsi simulyasiya</title>
 
-/* Animated image */
-.animated-image {
-    transition: all 0.3s ease-in-out;
-    border: 4px solid #ff00ff;
-    border-radius: 1rem;
-}
-
-@keyframes funAnimation {
-    0% { transform: scale(1) rotate(0deg); filter: brightness(100%) hue-rotate(0deg);}
-    25% { transform: scale(1.05) rotate(5deg); filter: brightness(110%) hue-rotate(45deg);}
-    50% { transform: scale(1.1) rotate(-5deg); filter: brightness(120%) hue-rotate(90deg);}
-    75% { transform: scale(1.05) rotate(5deg); filter: brightness(110%) hue-rotate(135deg);}
-    100% { transform: scale(1) rotate(0deg); filter: brightness(100%) hue-rotate(0deg);}
-}
-
-.animate-fun {
-    animation: funAnimation 2s ease-in-out forwards;
-}
-</style>
+  <style>
+    body{
+      font-family: Arial;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:20px;
+      margin-top:30px;
+    }
+    video, canvas, img{
+      width:320px;
+      height:240px;
+      border:2px solid #333;
+      border-radius:10px;
+    }
+    button{
+      padding:10px 20px;
+      border-radius:10px;
+      border:none;
+      font-size:16px;
+      cursor:pointer;
+    }
+  </style>
 </head>
-<body class="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white font-sans">
 
-<h1 class="text-4xl font-extrabold mb-8 text-center text-pink-500 drop-shadow-lg">📸 Take a Photo & Animate</h1>
+<body>
 
-<!-- Camera Section -->
-<div class="flex flex-col items-center mb-12">
-    <video id="video" autoplay playsinline class="rounded-lg shadow-lg mb-4 w-80 h-60 bg-gray-800"></video>
-    <button id="captureBtn" class="glow-button bg-gradient-to-r from-pink-500 to-purple-500 text-white font-bold py-3 px-8 rounded-full text-lg mb-4">Capture Photo</button>
-    <p class="text-gray-400 text-sm">Click the button to take a photo using your camera.</p>
-</div>
+  <h2>Kamera icazəsi simulyasiya</h2>
 
-<!-- Result section -->
-<div id="result" class="flex flex-col items-center">
-    <p class="text-xl font-semibold mb-6 drop-shadow-md text-pink-400">Your animated photo will appear here!</p>
-    <canvas id="canvas" class="animated-image hidden"></canvas>
-</div>
+  <p>
+    Aşağıdakı düyməyə bas — brauzer səndən <b>kamera icazəsi</b> istəyəcək.<br>
+    Bu yalnız local üçündür və şəkil heç yerə göndərilmir.
+  </p>
 
-<footer class="mt-12 text-white/70 text-sm text-center">
-    &copy; 2026 Mikayilov Site
-</footer>
+  <video id="video" autoplay></video>
 
-<script src="script.js"></script>
+  <button id="captureBtn">Şəkil çək</button>
+
+  <canvas id="canvas" style="display:none;"></canvas>
+
+  <h3>Çəkilən şəkil:</h3>
+  <img id="photo" alt="Hələ şəkil yoxdur">
+
+<script>
+  // Kamera axını aç
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+      document.getElementById("video").srcObject = stream;
+    })
+    .catch(err => {
+      alert("Kameraya icazə verilmədi!");
+    });
+
+  // Şəkil çəkmə
+  document.getElementById("captureBtn").onclick = function () {
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("canvas");
+    const photo = document.getElementById("photo");
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(video, 0, 0);
+
+    photo.src = canvas.toDataURL("image/png");
+  };
+</script>
+
 </body>
 </html>
+
