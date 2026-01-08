@@ -1,16 +1,14 @@
-/* Body & Background */
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  margin:0;
   background: linear-gradient(135deg, #1e3c72, #2a5298);
   color: #fff;
 }
 
-/* Card Container */
 .card {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(15px);
@@ -19,12 +17,9 @@ body {
   width: 450px;
   text-align: center;
   box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-  animation: fadeIn 1s ease-out;
 }
 
-/* Headings */
 h1 {
-  margin-bottom: 10px;
   color: #facc15;
   text-shadow: 0 0 8px #fbbf24;
 }
@@ -34,7 +29,6 @@ h3 {
   color: #22d3ee;
 }
 
-/* Video and Cartoon Preview */
 video, #cartoon {
   width: 360px;
   height: 260px;
@@ -49,7 +43,6 @@ video:hover, #cartoon:hover {
   transform: scale(1.05);
 }
 
-/* Buttons */
 button {
   margin-top: 20px;
   padding: 12px 25px;
@@ -68,14 +61,7 @@ button:hover {
   box-shadow: 0 10px 20px rgba(0,0,0,0.5);
 }
 
-/* Canvas hidden */
 canvas {
-  display: none;
-}
-
-/* Fade-in animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0);}
+  display:none;
 }
 
