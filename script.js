@@ -13,8 +13,7 @@ animateBtn.addEventListener('click', () => {
     reader.onload = function(e) {
         animatedPhoto.src = e.target.result;
         animatedPhoto.classList.remove('hidden');
-        animatedPhoto.classList.add('animate-bounce'); // Tailwind animation
+        animatedPhoto.classList.add('animate-bounce', 'transition-transform', 'duration-500');
     }
     reader.readAsDataURL(file);
 });
-
