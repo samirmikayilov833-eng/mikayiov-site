@@ -1,105 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Kamera icazəsi simulyasiya</title>
-
-<style>
-  body{
-    font-family: Arial;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:20px;
-    margin-top:30px;
-  }
-
-  video{
-    width:320px;
-    height:240px;
-    border:2px solid #333;
-    border-radius:10px;
-  }
-
-  canvas{
-    display:none;
-  }
-
-  #cartoon{
-    width:320px;
-    height:240px;
-    border:2px dashed #555;
-    border-radius:10px;
-    filter: contrast(140%) saturate(130%) blur(1px);
-  }
-
-  button{
-    padding:10px 20px;
-    border-radius:10px;
-    border:none;
-    font-size:16px;
-    cursor:pointer;
-  }
-</style>
+  <meta charset="UTF-8">
+  <title>Camera Cartoon Demo</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<h2>Kamera icazəsi simulyasiya</h2>
+<div class="card">
 
-<p>Bu səhifə yalnız <b>lokal tədris məqsədi</b> üçündür.</p>
+  <!-- Main Heading -->
+  <h1>🎨 Camera Cartoon Demo</h1>
 
-<video id="video" autoplay></video>
+  <!-- Instructions -->
+  <p>
+    This page will ask for <b>camera access</b>.<br>
+    Once allowed, you can capture a photo, see a cartoon preview, 
+    and save it locally to your computer.
+  </p>
 
-<button id="captureBtn">Şəkil çək və saxla</button>
+  <!-- Video Stream -->
+  <video id="video" autoplay></video>
 
-<canvas id="canvas"></canvas>
+  <!-- Capture Button -->
+  <button id="captureBtn">📸 Capture & Save Photo</button>
 
-<h3>Multik effekti ilə görüntü:</h3>
-<img id="cartoon" src="" alt="Hələ heç nə yoxdur">
+  <!-- Cartoon Preview -->
+  <h3>Cartoon Preview:</h3>
+  <img id="cartoon" alt="Cartoon preview">
 
-<script>
-// 1) Kamera icazəsi
-navigator.mediaDevices.getUserMedia({ video: true })
-.then(stream => {
-  document.getElementById("video").srcObject = stream;
-})
-.catch(() => alert("Kameraya icazə verilmədi"));
+  <!-- Hidden Canvas for Processing -->
+  <canvas id="canvas"></canvas>
 
-// 2) Şəkil çəkmək və saxlamaya icazə
-document.getElementById("captureBtn").onclick = async () => {
-  const video = document.getElementById("video");
-  const canvas = document.getElementById("canvas");
-  const cartoon = document.getElementById("cartoon");
+  <!-- Footer -->
+  <footer>
+    <small>Local simulation demo. No data is sent anywhere.</small>
+  </footer>
 
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
+</div>
 
-  const ctx = canvas.getContext("2d");
-  ctx.drawImage(video, 0, 0);
-
-  // 3) cartoon effekti (sadə filter simulyasiyası)
-  cartoon.src = canvas.toDataURL("image/png");
-
-  // 4) Saxlama icazəsi soruş (yalnız istifadəçi razıdırsa)
-  try{
-    const handle = await window.showSaveFilePicker({
-      suggestedName: "camera_image.png",
-      types: [{ description: "PNG Image", accept: {"image/png":[".png"]} }]
-    });
-
-    const writable = await handle.createWritable();
-    await writable.write(await (await fetch(canvas.toDataURL())).blob());
-    await writable.close();
-
-    alert("Şəkil yerli diskinə saxlanıldı (icazə ilə)");
-  }
-  catch(e){
-    alert("Saxlama əməliyyatı ləğv edildi");
-  }
-};
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
+
 
