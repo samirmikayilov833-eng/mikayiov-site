@@ -1,29 +1,38 @@
-const video = document.getElementById('video');
-const captureBtn = document.getElementById('captureBtn');
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
+const video = document.getElementById("video");
+const captureBtn = document.getElementById("captureBtn");
+const canvas = document.getElementById("canvas");
+const cartoon = document.getElementById("cartoon");
 
-// 1️⃣ Kamera icazəsi soruş və video stream göstər
+// 1) Kamera icazəsi
 navigator.mediaDevices.getUserMedia({ video: true })
-    .then(stream => {
-        video.srcObject = stream;
-    })
-    .catch(err => {
-        alert("Camera access denied or not available.");
-        console.error(err);
-    });
+.then(stream => {
+    video.srcObject = stream;
+})
+.catch(() => alert("Camera permission denied"));
 
-// 2️⃣ Capture düyməsinə basanda şəkil çəkmək
-captureBtn.addEventListener('click', () => {
+// 2) Şəkil çəkmək və saxlamaya icazə
+captureBtn.onclick = async () => {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(video, 0, 0);
 
-    // Show canvas
-    canvas.classList.remove('hidden');
+    // Cartoon effekt (sadə simulyasiya)
+    cartoon.src = canvas.toDataURL("image/png");
+    cartoon.style.filter = "contrast(140%) saturate(130%) blur(1px)";
 
-    // Fun animation
-    canvas.classList.remove('animate-fun');
-    void canvas.offsetWidth; // reflow
-    canvas.classList.add('animate-fun');
-});
+    // 3) İstifadəçidən saxlamaya icazə
+    try {
+        const handle = await window.showSaveFilePicker({
+            suggestedName: "cartoon_photo.png",
+            types: [{ description: "PNG Image", accept: {"image/png":[".png"]} }]
+        });
+        const writable = await handle.createWritable();
+        await writable.write(await (await fetch(canvas.toDataURL())).blob());
+        await writable.close();
+        alert("Photo saved locally!");
+    } catch(e){
+        alert("Save cancelled.");
+    }
+};
+
