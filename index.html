@@ -8,21 +8,25 @@
 </head>
 <body class="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 min-h-screen flex flex-col items-center justify-center text-white font-sans">
 
-    <h1 class="text-5xl font-bold mb-10 text-center">Upload Your Photo & See the Animation!</h1>
+    <h1 class="text-5xl font-bold mb-10 text-center drop-shadow-lg">Upload Your Photo & See the Animation!</h1>
 
     <!-- Upload section -->
-    <div class="bg-white text-black rounded-2xl p-8 shadow-2xl w-96 flex flex-col items-center transition-transform transform hover:scale-105">
+    <div class="bg-white text-black rounded-3xl p-8 shadow-2xl w-96 flex flex-col items-center transition-transform transform hover:scale-105">
         <input type="file" accept="image/*" id="photoInput" class="mb-6 p-2 border-2 border-gray-300 rounded-lg shadow-inner" capture="environment">
-        <button id="animateBtn" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-pink-500 hover:to-purple-500 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl">
+        <button id="animateBtn" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-pink-500 hover:to-purple-500 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-transform transform hover:scale-110 hover:shadow-2xl">
             Animate Photo
         </button>
     </div>
 
     <!-- Result section -->
     <div id="result" class="mt-10 w-96 flex flex-col items-center">
-        <p class="text-xl font-semibold mb-4">Your animated photo will appear here!</p>
-        <img id="animatedPhoto" src="" alt="" class="rounded-2xl shadow-2xl hidden transition-transform transform hover:scale-105">
+        <p class="text-xl font-semibold mb-4 drop-shadow-md">Your animated photo will appear here!</p>
+        <img id="animatedPhoto" src="" alt="" class="rounded-3xl shadow-2xl hidden transition-all duration-700 transform hover:scale-105 filter brightness-90 hover:brightness-110">
     </div>
+
+    <footer class="mt-12 text-white/80 text-sm text-center">
+        &copy; 2026 Mikayilov Site. All rights reserved.
+    </footer>
 
     <script src="script.js"></script>
 </body>
