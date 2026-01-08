@@ -1,34 +1,81 @@
-body{
-  font-family: Arial, sans-serif;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  margin:0;
+/* Body & Background */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
   background: linear-gradient(135deg, #1e3c72, #2a5298);
-  color:white;
+  color: #fff;
 }
 
-.card{
-  background: rgba(0,0,0,0.6);
-  padding:25px;
-  border-radius:20px;
-  text-align:center;
-  width:400px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+/* Card Container */
+.card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(15px);
+  padding: 30px;
+  border-radius: 25px;
+  width: 450px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  animation: fadeIn 1s ease-out;
 }
 
-video, #cartoon{
-  width:320px;
-  height:240px;
-  border:2px solid #fff;
-  border-radius:12px;
-  margin-top:15px;
+/* Headings */
+h1 {
+  margin-bottom: 10px;
+  color: #facc15;
+  text-shadow: 0 0 8px #fbbf24;
 }
 
-button{
-  margin-top:15px;
-  padding:10px 20px;
-  font-size:16px;
-  border:none;
-  border-radius:10px;
+h3 {
+  margin-top: 20px;
+  color: #22d3ee;
+}
+
+/* Video and Cartoon Preview */
+video, #cartoon {
+  width: 360px;
+  height: 260px;
+  border-radius: 15px;
+  border: 3px solid #fff;
+  margin-top: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  transition: transform 0.3s;
+}
+
+video:hover, #cartoon:hover {
+  transform: scale(1.05);
+}
+
+/* Buttons */
+button {
+  margin-top: 20px;
+  padding: 12px 25px;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  background: linear-gradient(45deg,#22c55e,#16a34a);
+  color: white;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+/* Canvas hidden */
+canvas {
+  display: none;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0);}
+}
+
