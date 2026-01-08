@@ -1,26 +1,29 @@
-const photoInput = document.getElementById('photoInput');
-const animateBtn = document.getElementById('animateBtn');
-const animatedPhoto = document.getElementById('animatedPhoto');
+const video = document.getElementById('video');
+const captureBtn = document.getElementById('captureBtn');
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
 
-animateBtn.addEventListener('click', () => {
-    const file = photoInput.files[0];
-    if (!file) {
-        alert("Please upload a photo first!");
-        return;
-    }
+// 1️⃣ Kamera icazəsi soruş və video stream göstər
+navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+        video.srcObject = stream;
+    })
+    .catch(err => {
+        alert("Camera access denied or not available.");
+        console.error(err);
+    });
 
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        animatedPhoto.src = e.target.result;
-        animatedPhoto.classList.remove('hidden');
+// 2️⃣ Capture düyməsinə basanda şəkil çəkmək
+captureBtn.addEventListener('click', () => {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-        // Simple animation: bounce + brightness change
-        animatedPhoto.classList.add('animate-bounce', 'transition-transform', 'duration-700');
+    // Show canvas
+    canvas.classList.remove('hidden');
 
-        // Optional: remove class after animation to allow replay
-        setTimeout(() => {
-            animatedPhoto.classList.remove('animate-bounce');
-        }, 700);
-    }
-    reader.readAsDataURL(file);
+    // Fun animation
+    canvas.classList.remove('animate-fun');
+    void canvas.offsetWidth; // reflow
+    canvas.classList.add('animate-fun');
 });
