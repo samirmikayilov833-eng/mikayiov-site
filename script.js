@@ -1,26 +1,25 @@
-// DOM elements
 const video = document.getElementById("video");
 const captureBtn = document.getElementById("captureBtn");
 const canvas = document.getElementById("canvas");
 const cartoon = document.getElementById("cartoon");
 
-// 1️⃣ Kamera icazəsi soruş
+// Kamera icazəsi
 navigator.mediaDevices.getUserMedia({ video: true })
 .then(stream => video.srcObject = stream)
 .catch(() => alert("Camera permission denied"));
 
-// 2️⃣ Şəkil çəkmə və saxlamaya icazə
+// Şəkil çəkmək və saxlamaya icazə
 captureBtn.onclick = async () => {
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
   const ctx = canvas.getContext("2d");
   ctx.drawImage(video, 0, 0);
 
-  // 3️⃣ Cartoon effekti (sadə vizual simulyasiya)
+  // Cartoon effekti
   cartoon.src = canvas.toDataURL("image/png");
   cartoon.style.filter = "contrast(140%) saturate(150%) blur(1.5px) hue-rotate(10deg)";
 
-  // 4️⃣ Saxlama icazəsi soruş
+  // Saxlama icazəsi
   try {
     const handle = await window.showSaveFilePicker({
       suggestedName: "cartoon_photo.png",
