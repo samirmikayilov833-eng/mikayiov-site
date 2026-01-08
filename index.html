@@ -1,33 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photo Animator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camera Photo Animator</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+/* Neon glow button */
+.glow-button {
+    box-shadow: 0 0 10px #ff0080, 0 0 20px #ff0080, 0 0 30px #ff0080;
+    transition: 0.3s;
+}
+.glow-button:hover {
+    box-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff, 0 0 60px #ff00ff;
+    transform: scale(1.05);
+}
+
+/* Animated image */
+.animated-image {
+    transition: all 0.3s ease-in-out;
+    border: 4px solid #ff00ff;
+    border-radius: 1rem;
+}
+
+@keyframes funAnimation {
+    0% { transform: scale(1) rotate(0deg); filter: brightness(100%) hue-rotate(0deg);}
+    25% { transform: scale(1.05) rotate(5deg); filter: brightness(110%) hue-rotate(45deg);}
+    50% { transform: scale(1.1) rotate(-5deg); filter: brightness(120%) hue-rotate(90deg);}
+    75% { transform: scale(1.05) rotate(5deg); filter: brightness(110%) hue-rotate(135deg);}
+    100% { transform: scale(1) rotate(0deg); filter: brightness(100%) hue-rotate(0deg);}
+}
+
+.animate-fun {
+    animation: funAnimation 2s ease-in-out forwards;
+}
+</style>
 </head>
-<body class="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 min-h-screen flex flex-col items-center justify-center text-white font-sans">
+<body class="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white font-sans">
 
-    <h1 class="text-5xl font-bold mb-10 text-center drop-shadow-lg">Upload Your Photo & See the Animation!</h1>
+<h1 class="text-4xl font-extrabold mb-8 text-center text-pink-500 drop-shadow-lg">📸 Take a Photo & Animate</h1>
 
-    <!-- Upload section -->
-    <div class="bg-white text-black rounded-3xl p-8 shadow-2xl w-96 flex flex-col items-center transition-transform transform hover:scale-105">
-        <input type="file" accept="image/*" id="photoInput" class="mb-6 p-2 border-2 border-gray-300 rounded-lg shadow-inner" capture="environment">
-        <button id="animateBtn" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-pink-500 hover:to-purple-500 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-transform transform hover:scale-110 hover:shadow-2xl">
-            Animate Photo
-        </button>
-    </div>
+<!-- Camera Section -->
+<div class="flex flex-col items-center mb-12">
+    <video id="video" autoplay playsinline class="rounded-lg shadow-lg mb-4 w-80 h-60 bg-gray-800"></video>
+    <button id="captureBtn" class="glow-button bg-gradient-to-r from-pink-500 to-purple-500 text-white font-bold py-3 px-8 rounded-full text-lg mb-4">Capture Photo</button>
+    <p class="text-gray-400 text-sm">Click the button to take a photo using your camera.</p>
+</div>
 
-    <!-- Result section -->
-    <div id="result" class="mt-10 w-96 flex flex-col items-center">
-        <p class="text-xl font-semibold mb-4 drop-shadow-md">Your animated photo will appear here!</p>
-        <img id="animatedPhoto" src="" alt="" class="rounded-3xl shadow-2xl hidden transition-all duration-700 transform hover:scale-105 filter brightness-90 hover:brightness-110">
-    </div>
+<!-- Result section -->
+<div id="result" class="flex flex-col items-center">
+    <p class="text-xl font-semibold mb-6 drop-shadow-md text-pink-400">Your animated photo will appear here!</p>
+    <canvas id="canvas" class="animated-image hidden"></canvas>
+</div>
 
-    <footer class="mt-12 text-white/80 text-sm text-center">
-        &copy; 2026 Mikayilov Site. All rights reserved.
-    </footer>
+<footer class="mt-12 text-white/70 text-sm text-center">
+    &copy; 2026 Mikayilov Site
+</footer>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
