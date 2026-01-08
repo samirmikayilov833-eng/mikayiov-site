@@ -1,20 +1,25 @@
 <!DOCTYPE html>
-<html lang="az">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mikayilov Site</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Photo Animator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Sayt işləyir!</h1>
+<body class="bg-gradient-to-r from-purple-500 to-pink-500 min-h-screen flex flex-col items-center justify-center text-white">
 
-    <!-- Kamera bölməsi -->
-    <div class="camera-container">
-        <video id="cameraStream" autoplay></video>
-        <button id="captureBtn">Şəkil çək</button>
-        <canvas id="snapshot"></canvas>
-        <div id="result"></div>
+    <h1 class="text-4xl font-bold mb-6">Upload Your Photo & See the Animation!</h1>
+
+    <!-- Upload section -->
+    <div class="bg-white text-black rounded-lg p-6 shadow-lg w-80 flex flex-col items-center">
+        <input type="file" accept="image/*" id="photoInput" class="mb-4" capture="environment">
+        <button id="animateBtn" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">Animate Photo</button>
+    </div>
+
+    <!-- Result section -->
+    <div id="result" class="mt-8">
+        <p class="text-lg">Your animated photo will appear here!</p>
+        <img id="animatedPhoto" src="" alt="" class="mt-4 rounded-lg shadow-lg hidden">
     </div>
 
     <script src="script.js"></script>
