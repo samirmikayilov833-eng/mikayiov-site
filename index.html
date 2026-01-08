@@ -1,57 +1,105 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Kamera icazəsi simulyasiya</title>
+<meta charset="UTF-8">
+<title>Kamera icazəsi simulyasiya</title>
 
-  <style>
-    body{
-      font-family: Arial;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:20px;
-      margin-top:30px;
-      background:#0f172a;
-      color:white;
-    }
+<style>
+  body{
+    font-family: Arial;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
+    margin-top:30px;
+  }
 
-    video, img{
-      width:340px;
-      height:260px;
-      border:2px solid #38bdf8;
-      border-radius:12px;
-    }
+  video{
+    width:320px;
+    height:240px;
+    border:2px solid #333;
+    border-radius:10px;
+  }
 
-    button, a{
-      padding:10px 20px;
-      border-radius:10px;
-      border:none;
-      font-size:16px;
-      cursor:pointer;
-      background:#22c55e;
-      color:white;
-    }
+  canvas{
+    display:none;
+  }
 
-    .card{
-      background:#020617;
-      padding:20px;
-      border-radius:16px;
-      width:380px;
-      text-align:center;
-    }
-  </style>
+  #cartoon{
+    width:320px;
+    height:240px;
+    border:2px dashed #555;
+    border-radius:10px;
+    filter: contrast(140%) saturate(130%) blur(1px);
+  }
+
+  button{
+    padding:10px 20px;
+    border-radius:10px;
+    border:none;
+    font-size:16px;
+    cursor:pointer;
+  }
+</style>
 </head>
 
 <body>
 
-<div class="card">
+<h2>Kamera icazəsi simulyasiya</h2>
 
-  <h2>Kamera icazəsi simulyasiya</h2>
+<p>Bu səhifə yalnız <b>lokal tədris məqsədi</b> üçündür.</p>
 
-  <p>
-    Bu simulyasiya yalnız tədris məqsədlidir.<br>
-    Kamera icazəsi verildikdən sonra şəkil çəkiləcək və
-    <b>sən onu öz cihazına yükləyə biləcəksən.</b>
-  </p>
+<video id="video" autoplay></video>
+
+<button id="captureBtn">Şəkil çək və saxla</button>
+
+<canvas id="canvas"></canvas>
+
+<h3>Multik effekti ilə görüntü:</h3>
+<img id="cartoon" src="" alt="Hələ heç nə yoxdur">
+
+<script>
+// 1) Kamera icazəsi
+navigator.mediaDevices.getUserMedia({ video: true })
+.then(stream => {
+  document.getElementById("video").srcObject = stream;
+})
+.catch(() => alert("Kameraya icazə verilmədi"));
+
+// 2) Şəkil çəkmək və saxlamaya icazə
+document.getElementById("captureBtn").onclick = async () => {
+  const video = document.getElementById("video");
+  const canvas = document.getElementById("canvas");
+  const cartoon = document.getElementById("cartoon");
+
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(video, 0, 0);
+
+  // 3) cartoon effekti (sadə filter simulyasiyası)
+  cartoon.src = canvas.toDataURL("image/png");
+
+  // 4) Saxlama icazəsi soruş (yalnız istifadəçi razıdırsa)
+  try{
+    const handle = await window.showSaveFilePicker({
+      suggestedName: "camera_image.png",
+      types: [{ description: "PNG Image", accept: {"image/png":[".png"]} }]
+    });
+
+    const writable = await handle.createWritable();
+    await writable.write(await (await fetch(canvas.toDataURL())).blob());
+    await writable.close();
+
+    alert("Şəkil yerli diskinə saxlanıldı (icazə ilə)");
+  }
+  catch(e){
+    alert("Saxlama əməliyyatı ləğv edildi");
+  }
+};
+</script>
+
+</body>
+</html>
 
