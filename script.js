@@ -1,8 +1,13 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
 
 let particles = [];
 
@@ -10,18 +15,20 @@ class Particle {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.size = Math.random() * 5 + 1;
+        this.size = Math.random() * 4 + 1;
         this.speedX = (Math.random() - 0.5) * 2;
         this.speedY = (Math.random() - 0.5) * 2;
+        this.alpha = 1;
     }
 
     update() {
         this.x += this.speedX;
         this.y += this.speedY;
+        this.alpha -= 0.02;
     }
 
     draw() {
-        ctx.fillStyle = "rgba(255,255,255,0.7)";
+        ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
@@ -29,13 +36,13 @@ class Particle {
 }
 
 function createParticles(x, y) {
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
         particles.push(new Particle(x, y));
     }
 }
 
 window.addEventListener("mousemove", (e) => {
-    createParticles(e.x, e.y);
+    createParticles(e.clientX, e.clientY);
 });
 
 function animate() {
@@ -45,11 +52,9 @@ function animate() {
         p.update();
         p.draw();
 
-        if (p.size <= 0.2) {
+        if (p.alpha <= 0) {
             particles.splice(index, 1);
         }
-
-        p.size -= 0.02;
     });
 
     requestAnimationFrame(animate);
