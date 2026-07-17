@@ -1,16 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art</title>
+
+    <title>Welcome to the Site</title>
+
+    <meta name="description" content="Useful web tools, technical resources, browser games and interactive content.">
+
+    <link rel="icon" href="favicon.ico">
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- CSS -->
+
     <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
 
-<div class="background"></div>
-<canvas id="canvas"></canvas>
+    <!-- Loading Screen -->
 
-<script src="script.js"></script>
+    <div id="loader">
+
+        <div class="loader-circle"></div>
+
+        <h2>Loading...</h2>
+
+    </div>
+
+    <!-- Animated Background -->
+
+    <canvas id="background"></canvas>
+
+    <!-- Navbar -->
+
+    <header>
+
+        <nav>
+
+            <div class="logo">
+
+                <span>⚡</span>
+
+            </div>
+
+            <ul>
+
+                <li><a href="#">Home</a></li>
+
+                <li><a href="tools/">Tools</a></li>
+
+                <li><a href="myip/">My IP</a></li>
+
+                <li><a href="qna/">Q&A</a></li>
+
+                <li><a href="games/">Games</a></li>
+
+                <li><a href="blog/">Blog</a></li>
+
+                <li><a href="downloads/">Downloads</a></li>
+
+                <li><a href="about/">About</a></li>
+
+            </ul>
+
+            <div class="menu-btn">
+
+                <i class="fa-solid fa-bars"></i>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+    <!-- Hero -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <span class="subtitle">
+
+                Interactive Platform
+
+            </span>
+
+            <h1>
+
+                WELCOME TO THE SITE
+
+            </h1>
+
+            <p>
+
+                Explore useful web tools, technical resources,
+                browser games and interactive content in one place.
+
+            </p>
+
+            <div class="buttons">
+
+                <a href="#cards" class="btn-primary">
+
+                    Explore
+
+                </a>
+
+                <a href="#about" class="btn-secondary">
+
+                    Learn More
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="hero-animation">
+
+            <div class="circle one"></div>
+
+            <div class="circle two"></div>
+
+            <div class="circle three"></div>
+
+        </div>
+
+    </section>
+
+    <!-- Cards -->
+
+    <section class="cards" id="cards">
+
+        <div class="card">
+
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+
+            <h3>Tools</h3>
+
+            <p>
+
+                Useful online utilities.
+
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <i class="fa-solid fa-earth-americas"></i>
+
+            <h3>My IP</h3>
+
+            <p>
+
+                IP address and browser information.
+
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <i class="fa-solid fa-circle-question"></i>
+
+            <h3>Q&A</h3>
+
+            <p>
+
+                Learn with questions and answers.
+
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <i class="fa-solid fa-gamepad"></i>
+
+            <h3>Games</h3>
+
+            <p>
+
+                Small browser games.
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- About -->
+
+    <section class="about" id="about">
+
+        <h2>
+
+            Everything In One Place
+
+        </h2>
+
+        <p>
+
+            Discover practical tools, educational resources,
+            technical guides, games and more.
+            The platform is designed to grow over time with new
+            features and content.
+
+        </p>
+
+    </section>
+
+    <!-- Footer -->
+
+    <footer>
+
+        © 2026 • Welcome to the Site
+
+    </footer>
+
+    <!-- Scroll Top -->
+
+    <button id="topBtn">
+
+        <i class="fa-solid fa-arrow-up"></i>
+
+    </button>
+
+    <script src="script.js"></script>
+
 </body>
+
 </html>
