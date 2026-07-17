@@ -682,3 +682,129 @@ transform:translateY(0);
 }
 
 }
+/* ===================================
+   RESPONSIVE
+=================================== */
+
+@media (max-width:1100px){
+
+.hero{
+
+flex-direction:column;
+
+justify-content:center;
+
+text-align:center;
+
+padding-top:140px;
+
+}
+
+.hero-left{
+
+max-width:100%;
+
+}
+
+.hero-left h1{
+
+font-size:64px;
+
+}
+
+.hero-right{
+
+margin-top:60px;
+
+}
+
+nav ul{
+
+display:none;
+
+}
+
+.mobile{
+
+display:block;
+
+color:white;
+
+}
+
+.cards{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+@media (max-width:700px){
+
+.hero{
+
+padding:120px 25px 60px;
+
+}
+
+.hero-left h1{
+
+font-size:46px;
+
+}
+
+.hero-left p{
+
+font-size:17px;
+
+}
+
+.buttons{
+
+flex-direction:column;
+
+align-items:center;
+
+}
+
+.primary,
+.secondary{
+
+width:230px;
+
+text-align:center;
+
+}
+
+.network{
+
+transform:scale(.75);
+
+}
+
+.cards{
+
+grid-template-columns:1fr;
+
+}
+
+.about h2{
+
+font-size:36px;
+
+}
+
+.about p{
+
+font-size:16px;
+
+}
+
+nav{
+
+padding:14px 20px;
+
+}
+
+}
