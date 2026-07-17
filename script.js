@@ -223,3 +223,109 @@ function animateParticles() {
 }
 
 animateParticles();
+// ====================================
+// Mouse Interaction
+// ====================================
+
+const mouse = {
+    x: null,
+    y: null,
+    radius: 160
+};
+
+window.addEventListener("mousemove", (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
+
+window.addEventListener("mouseout", () => {
+    mouse.x = null;
+    mouse.y = null;
+});
+
+// Particle update funksiyasını təkmilləşdir
+Particle.prototype.update = function () {
+
+    this.x += this.speedX;
+    this.y += this.speedY;
+
+    if (this.x <= 0 || this.x >= canvas.width)
+        this.speedX *= -1;
+
+    if (this.y <= 0 || this.y >= canvas.height)
+        this.speedY *= -1;
+
+    if (mouse.x !== null) {
+
+        const dx = this.x - mouse.x;
+        const dy = this.y - mouse.y;
+
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < mouse.radius) {
+
+            const force = (mouse.radius - distance) / mouse.radius;
+
+            this.x += (dx / distance) * force * 2;
+            this.y += (dy / distance) * force * 2;
+
+        }
+
+    }
+
+};
+
+// Siçan ilə xətlər
+function connectMouse() {
+
+    if (mouse.x === null) return;
+
+    particles.forEach(p => {
+
+        const dx = p.x - mouse.x;
+        const dy = p.y - mouse.y;
+
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 140) {
+
+            ctx.beginPath();
+
+            ctx.strokeStyle =
+                "rgba(0,217,255," +
+                (1 - distance / 140) * 0.35 +
+                ")";
+
+            ctx.moveTo(mouse.x, mouse.y);
+
+            ctx.lineTo(p.x, p.y);
+
+            ctx.stroke();
+
+        }
+
+    });
+
+}
+
+// animate funksiyasını yenilə
+const oldAnimate = animateParticles;
+
+animateParticles = function () {
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(p => {
+        p.update();
+        p.draw();
+    });
+
+    connectParticles();
+    connectMouse();
+
+    requestAnimationFrame(animateParticles);
+
+};
+
+// Yenidən başladır
+animateParticles();
