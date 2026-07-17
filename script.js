@@ -1,331 +1,148 @@
-// ====================================
-// Scroll To Top
-// ====================================
+/*==================================================
+  MIKAYILOV.SITE
+  script.js
+==================================================*/
 
-const topButton = document.getElementById("top");
+document.addEventListener("DOMContentLoaded", () => {
 
-window.addEventListener("scroll", () => {
+    /* ==========================
+       HERO ANIMATION
+    ========================== */
 
-    if (window.scrollY > 300) {
-        topButton.style.opacity = "1";
-        topButton.style.pointerEvents = "auto";
-    } else {
-        topButton.style.opacity = "0";
-        topButton.style.pointerEvents = "none";
-    }
+    const heroTitle = document.querySelector(".hero h1");
 
-});
+    heroTitle.style.opacity = "0";
+    heroTitle.style.transform = "translateY(40px)";
 
-topButton.addEventListener("click", () => {
+    setTimeout(() => {
 
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
+        heroTitle.style.transition = "1.2s ease";
+        heroTitle.style.opacity = "1";
+        heroTitle.style.transform = "translateY(0)";
 
-});
+    }, 200);
 
-// ====================================
-// Navbar Blur
-// ====================================
 
-const navbar = document.querySelector("nav");
+    /* ==========================
+       NAVBAR SCROLL EFFECT
+    ========================== */
 
-window.addEventListener("scroll", () => {
+    const header = document.querySelector("header");
 
-    if (window.scrollY > 80) {
+    window.addEventListener("scroll", () => {
 
-        navbar.style.background = "rgba(10,15,35,.82)";
-        navbar.style.backdropFilter = "blur(25px)";
-        navbar.style.borderColor = "rgba(255,255,255,.12)";
+        if(window.scrollY > 40){
 
-    } else {
+            header.style.background = "rgba(8,8,8,.70)";
+            header.style.backdropFilter = "blur(20px)";
+            header.style.borderBottom = "1px solid rgba(245,197,66,.12)";
 
-        navbar.style.background = "rgba(255,255,255,.05)";
-        navbar.style.backdropFilter = "blur(18px)";
-        navbar.style.borderColor = "rgba(255,255,255,.08)";
+        }else{
 
-    }
-
-});
-
-// ====================================
-// Card Hover Animation
-// ====================================
-
-const cards = document.querySelectorAll(".card");
-
-cards.forEach(card => {
-
-    card.addEventListener("mousemove", e => {
-
-        const rect = card.getBoundingClientRect();
-
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const rotateY = (x / rect.width - 0.5) * 12;
-        const rotateX = -(y / rect.height - 0.5) * 12;
-
-        card.style.transform =
-            `perspective(1000px)
-             rotateX(${rotateX}deg)
-             rotateY(${rotateY}deg)
-             translateY(-10px)`;
-
-    });
-
-    card.addEventListener("mouseleave", () => {
-
-        card.style.transform =
-            "perspective(1000px) rotateX(0) rotateY(0)";
-
-    });
-
-});
-
-// ====================================
-// Animated Particle Background
-// ====================================
-
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
-
-let particles = [];
-
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-
-resizeCanvas();
-
-window.addEventListener("resize", resizeCanvas);
-
-class Particle {
-
-    constructor() {
-
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-
-        this.size = Math.random() * 2 + 1;
-
-        this.speedX = (Math.random() - 0.5) * 0.4;
-        this.speedY = (Math.random() - 0.5) * 0.4;
-
-    }
-
-    update() {
-
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        if (this.x < 0 || this.x > canvas.width)
-            this.speedX *= -1;
-
-        if (this.y < 0 || this.y > canvas.height)
-            this.speedY *= -1;
-
-    }
-
-    draw() {
-
-        ctx.beginPath();
-
-        ctx.arc(
-            this.x,
-            this.y,
-            this.size,
-            0,
-            Math.PI * 2
-        );
-
-        ctx.fillStyle = "#00d9ff";
-
-        ctx.fill();
-
-    }
-
-}
-
-for (let i = 0; i < 90; i++) {
-
-    particles.push(new Particle());
-
-}
-
-function connectParticles() {
-
-    for (let a = 0; a < particles.length; a++) {
-
-        for (let b = a + 1; b < particles.length; b++) {
-
-            let dx = particles[a].x - particles[b].x;
-            let dy = particles[a].y - particles[b].y;
-
-            let distance = Math.sqrt(dx * dx + dy * dy);
-
-            if (distance < 120) {
-
-                ctx.beginPath();
-
-                ctx.strokeStyle =
-                    "rgba(0,217,255," +
-                    (1 - distance / 120) * 0.25 +
-                    ")";
-
-                ctx.lineWidth = 1;
-
-                ctx.moveTo(
-                    particles[a].x,
-                    particles[a].y
-                );
-
-                ctx.lineTo(
-                    particles[b].x,
-                    particles[b].y
-                );
-
-                ctx.stroke();
-
-            }
+            header.style.background = "rgba(8,8,8,.30)";
+            header.style.backdropFilter = "blur(12px)";
+            header.style.borderBottom = "1px solid rgba(255,255,255,.04)";
 
         }
 
-    }
-
-}
-
-function animateParticles() {
-
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-    particles.forEach(p => {
-
-        p.update();
-
-        p.draw();
-
     });
 
-    connectParticles();
 
-    requestAnimationFrame(
-        animateParticles
-    );
+    /* ==========================
+       SCROLL TOP BUTTON
+    ========================== */
 
-}
+    const topBtn = document.getElementById("topBtn");
 
-animateParticles();
-// ====================================
-// Mouse Interaction
-// ====================================
+    window.addEventListener("scroll", () => {
 
-const mouse = {
-    x: null,
-    y: null,
-    radius: 160
-};
+        if(window.scrollY > 300){
 
-window.addEventListener("mousemove", (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-});
+            topBtn.style.display = "flex";
 
-window.addEventListener("mouseout", () => {
-    mouse.x = null;
-    mouse.y = null;
-});
+        }else{
 
-// Particle update funksiyasını təkmilləşdir
-Particle.prototype.update = function () {
-
-    this.x += this.speedX;
-    this.y += this.speedY;
-
-    if (this.x <= 0 || this.x >= canvas.width)
-        this.speedX *= -1;
-
-    if (this.y <= 0 || this.y >= canvas.height)
-        this.speedY *= -1;
-
-    if (mouse.x !== null) {
-
-        const dx = this.x - mouse.x;
-        const dy = this.y - mouse.y;
-
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-        if (distance < mouse.radius) {
-
-            const force = (mouse.radius - distance) / mouse.radius;
-
-            this.x += (dx / distance) * force * 2;
-            this.y += (dy / distance) * force * 2;
+            topBtn.style.display = "none";
 
         }
 
+    });
+
+    topBtn.addEventListener("click", () => {
+
+        window.scrollTo({
+
+            top:0,
+
+            behavior:"smooth"
+
+        });
+
+    });
+
+
+    /* ==========================
+       CANVAS BACKGROUND
+    ========================== */
+
+    const canvas = document.getElementById("background");
+    const ctx = canvas.getContext("2d");
+
+    function resize(){
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
     }
 
-};
+    resize();
 
-// Siçan ilə xətlər
-function connectMouse() {
+    window.addEventListener("resize", resize);
 
-    if (mouse.x === null) return;
+    const particles = [];
 
-    particles.forEach(p => {
+    for(let i=0;i<70;i++){
 
-        const dx = p.x - mouse.x;
-        const dy = p.y - mouse.y;
+        particles.push({
 
-        const distance = Math.sqrt(dx * dx + dy * dy);
+            x:Math.random()*canvas.width,
+            y:Math.random()*canvas.height,
 
-        if (distance < 140) {
+            r:Math.random()*2+1,
+
+            dx:(Math.random()-0.5)*0.25,
+            dy:(Math.random()-0.5)*0.25
+
+        });
+
+    }
+
+    function draw(){
+
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+
+        particles.forEach(p=>{
 
             ctx.beginPath();
 
-            ctx.strokeStyle =
-                "rgba(0,217,255," +
-                (1 - distance / 140) * 0.35 +
-                ")";
+            ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
 
-            ctx.moveTo(mouse.x, mouse.y);
+            ctx.fillStyle="rgba(245,197,66,.55)";
 
-            ctx.lineTo(p.x, p.y);
+            ctx.fill();
 
-            ctx.stroke();
+            p.x+=p.dx;
+            p.y+=p.dy;
 
-        }
+            if(p.x<0 || p.x>canvas.width) p.dx*=-1;
+            if(p.y<0 || p.y>canvas.height) p.dy*=-1;
 
-    });
+        });
 
-}
+        requestAnimationFrame(draw);
 
-// animate funksiyasını yenilə
-const oldAnimate = animateParticles;
+    }
 
-animateParticles = function () {
+    draw();
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    particles.forEach(p => {
-        p.update();
-        p.draw();
-    });
-
-    connectParticles();
-    connectMouse();
-
-    requestAnimationFrame(animateParticles);
-
-};
-
-// Yenidən başladır
-animateParticles();
+});
