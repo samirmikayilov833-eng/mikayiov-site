@@ -327,3 +327,271 @@ nav ul a:hover::after{
     }
 
 }
+/*==================================================
+  PART 2
+  PREMIUM EFFECTS
+==================================================*/
+
+
+/*=========================
+  GLASS NAVBAR
+=========================*/
+
+header{
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+
+    background:rgba(10,10,10,.30);
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+
+    transition:.4s ease;
+
+}
+
+
+/*=========================
+  LOGO
+=========================*/
+
+.logo{
+
+    color:#F5C542;
+
+    filter:drop-shadow(0 0 10px rgba(245,197,66,.15));
+
+}
+
+.logo:hover{
+
+    filter:
+    drop-shadow(0 0 10px rgba(245,197,66,.45))
+    drop-shadow(0 0 20px rgba(245,197,66,.25));
+
+}
+
+
+
+/*=========================
+  NAV LINKS
+=========================*/
+
+nav ul a{
+
+    padding:6px 2px;
+
+}
+
+nav ul a:hover{
+
+    text-shadow:0 0 10px rgba(245,197,66,.45);
+
+}
+
+
+
+/*=========================
+  HERO TITLE
+=========================*/
+
+.hero h1{
+
+    max-width:1200px;
+
+    animation:fadeUp 1.2s ease;
+
+    text-shadow:
+
+    0 0 20px rgba(255,255,255,.08),
+
+    0 0 60px rgba(245,197,66,.08);
+
+}
+
+
+
+/*=========================
+  FADE ANIMATION
+=========================*/
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:
+
+        translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+
+        translateY(0);
+
+    }
+
+}
+
+
+
+/*=========================
+  GOLD PARTICLES
+=========================*/
+
+body::before{
+
+    animation:floatGlow 14s ease-in-out infinite;
+
+}
+
+body::after{
+
+    animation:floatGlow2 18s ease-in-out infinite;
+
+}
+
+
+@keyframes floatGlow{
+
+    0%{
+
+        transform:translate(0,0);
+
+    }
+
+    50%{
+
+        transform:
+
+        translate(-40px,35px);
+
+    }
+
+    100%{
+
+        transform:translate(0,0);
+
+    }
+
+}
+
+
+@keyframes floatGlow2{
+
+    0%{
+
+        transform:translate(0,0);
+
+    }
+
+    50%{
+
+        transform:
+
+        translate(40px,-25px);
+
+    }
+
+    100%{
+
+        transform:translate(0,0);
+
+    }
+
+}
+
+
+
+/*=========================
+  TOP BUTTON
+=========================*/
+
+#topBtn{
+
+    transition:
+
+    .35s ease,
+
+    transform .35s ease,
+
+    box-shadow .35s ease;
+
+}
+
+#topBtn:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:
+
+    0 0 25px rgba(245,197,66,.45);
+
+}
+
+
+
+/*=========================
+  SCROLLBAR
+=========================*/
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#080808;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#3b3216;
+
+    border-radius:30px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#F5C542;
+
+}
+
+
+
+/*=========================
+  TEXT SELECTION
+=========================*/
+
+::selection{
+
+    background:#F5C542;
+
+    color:#000;
+
+}
+
+
+
+/*=========================
+  SMOOTH TRANSITIONS
+=========================*/
+
+a,
+button,
+.logo{
+
+    transition:.35s ease;
+
+}
