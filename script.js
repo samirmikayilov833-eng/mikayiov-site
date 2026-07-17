@@ -1,63 +1,85 @@
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+// ====================================
+// Scroll To Top
+// ====================================
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
+const topButton = document.getElementById("top");
 
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
+window.addEventListener("scroll", () => {
 
-let particles = [];
-
-class Particle {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.size = Math.random() * 4 + 1;
-        this.speedX = (Math.random() - 0.5) * 2;
-        this.speedY = (Math.random() - 0.5) * 2;
-        this.alpha = 1;
+    if (window.scrollY > 300) {
+        topButton.style.opacity = "1";
+        topButton.style.pointerEvents = "auto";
+    } else {
+        topButton.style.opacity = "0";
+        topButton.style.pointerEvents = "none";
     }
 
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.alpha -= 0.02;
-    }
-
-    draw() {
-        ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-    }
-}
-
-function createParticles(x, y) {
-    for (let i = 0; i < 6; i++) {
-        particles.push(new Particle(x, y));
-    }
-}
-
-window.addEventListener("mousemove", (e) => {
-    createParticles(e.clientX, e.clientY);
 });
 
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+topButton.addEventListener("click", () => {
 
-    particles.forEach((p, index) => {
-        p.update();
-        p.draw();
-
-        if (p.alpha <= 0) {
-            particles.splice(index, 1);
-        }
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
     });
 
-    requestAnimationFrame(animate);
-}
+});
 
-animate();
+// ====================================
+// Navbar Blur
+// ====================================
+
+const navbar = document.querySelector("nav");
+
+window.addEventListener("scroll", () => {
+
+    if (window.scrollY > 80) {
+
+        navbar.style.background = "rgba(10,15,35,.82)";
+        navbar.style.backdropFilter = "blur(25px)";
+        navbar.style.borderColor = "rgba(255,255,255,.12)";
+
+    } else {
+
+        navbar.style.background = "rgba(255,255,255,.05)";
+        navbar.style.backdropFilter = "blur(18px)";
+        navbar.style.borderColor = "rgba(255,255,255,.08)";
+
+    }
+
+});
+
+// ====================================
+// Card Hover Animation
+// ====================================
+
+const cards = document.querySelectorAll(".card");
+
+cards.forEach(card => {
+
+    card.addEventListener("mousemove", e => {
+
+        const rect = card.getBoundingClientRect();
+
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const rotateY = (x / rect.width - 0.5) * 12;
+        const rotateX = -(y / rect.height - 0.5) * 12;
+
+        card.style.transform =
+            `perspective(1000px)
+             rotateX(${rotateX}deg)
+             rotateY(${rotateY}deg)
+             translateY(-10px)`;
+
+    });
+
+    card.addEventListener("mouseleave", () => {
+
+        card.style.transform =
+            "perspective(1000px) rotateX(0) rotateY(0)";
+
+    });
+
+});
