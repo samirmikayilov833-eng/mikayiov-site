@@ -3,36 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tools • Kamera & Məlumat Testi</title>
+  <title>Tools</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Tools</h1>
-      <p class="subtitle">Kamera • Yer • IP test aləti</p>
-    </header>
+  <div class="wrapper">
+    <h1>Tools</h1>
+    <p class="note">Yalnız test və simulyasiya üçündür. Kamera və yer üçün brauzer icazəsi tələb olunacaq.</p>
 
-    <section class="card">
-      <h2>Kamera & Məlumat</h2>
-      <p class="desc">Bu alət yalnız test və simulyasiya məqsədilədir. Kameraya, yerə və IP məlumatına icazə verildikdə məlumatlar bu səhifədə göstəriləcək.</p>
+    <div class="actions">
+      <button id="startBtn">Başlat (Kamera + Yer + IP)</button>
+      <button id="captureBtn" disabled>Şəkil çək</button>
+      <button id="saveBtn" disabled>Məlumatları endir (JSON)</button>
+      <button id="stopBtn" disabled class="stop">Dayandır</button>
+    </div>
 
-      <div class="buttons">
-        <button id="startBtn" class="btn primary">Kameranı başlat</button>
-        <button id="captureBtn" class="btn" disabled>Şəkil çək</button>
-        <button id="stopBtn" class="btn danger" disabled>Dayandır</button>
-      </div>
+    <div class="preview">
+      <video id="video" autoplay playsinline></video>
+      <img id="photo" hidden>
+    </div>
 
-      <div class="media-area">
-        <video id="video" autoplay playsinline></video>
-        <img id="photo" alt="Çəkilmiş şəkil" hidden>
-      </div>
-    </section>
-
-    <section class="card info-card">
-      <h2>Toplanan məlumatlar</h2>
-      <pre id="info">Hələ heç bir məlumat yoxdur. “Kameranı başlat” düyməsinə basın.</pre>
-    </section>
+    <div class="data">
+      <h3>Toplanan məlumatlar</h3>
+      <pre id="output">Hələ heç nə yoxdur.</pre>
+    </div>
   </div>
 
   <script src="script.js"></script>
