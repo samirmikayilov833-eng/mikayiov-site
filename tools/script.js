@@ -1,14 +1,21 @@
 const video = document.getElementById('video');
 const photo = document.getElementById('photo');
-const info = document.getElementById('info');
+const output = document.getElementById('output');
 const startBtn = document.getElementById('startBtn');
 const captureBtn = document.getElementById('captureBtn');
+const saveBtn = document.getElementById('saveBtn');
 const stopBtn = document.getElementById('stopBtn');
 
 let stream = null;
+let collected = {
+  timestamp: null,
+  ip: null,
+  location: null,
+  photo: null
+};
 
 startBtn.addEventListener('click', async () => {
-  info.textContent = 'İcazələr istənilir...';
+  output.textContent = 'İcazələr istənilir...';
 
   try {
     // Kamera
@@ -16,48 +23,48 @@ startBtn.addEventListener('click', async () => {
       video: { facingMode: 'user' },
       audio: false
     });
-
     video.srcObject = stream;
     video.classList.add('active');
     captureBtn.disabled = false;
     stopBtn.disabled = false;
     startBtn.disabled = true;
 
-    // Yer məlumatı
-    let geoText = 'Yer məlumatı alınmadı';
+    // Yer
+    let locationData = null;
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          geoText = `Enlik: ${pos.coords.latitude.toFixed(6)}
-Uzunluq: ${pos.coords.longitude.toFixed(6)}
-Dəqiqlik: ±${Math.round(pos.coords.accuracy)} m`;
-          updateInfo(geoText, ipText);
-        },
-        (err) => {
-          geoText = `Yer xətası: ${err.message}`;
-          updateInfo(geoText, ipText);
-        },
-        { enableHighAccuracy: true, timeout: 10000 }
-      );
+      locationData = await new Promise((resolve) => {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => resolve({
+            latitude: pos.coords.latitude,
+            longitude: pos.coords.longitude,
+            accuracy: pos.coords.accuracy
+          }),
+          (err) => resolve({ error: err.message })
+        );
+      });
     }
 
-    // IP məlumatı
-    let ipText = 'IP məlumatı alınır...';
+    // IP
+    let ipData = null;
     try {
       const res = await fetch('https://ipapi.co/json/');
-      const data = await res.json();
-      ipText = `IP: ${data.ip}
-Ölkə: ${data.country_name}
-Şəhər: ${data.city || '—'}
-ISP: ${data.org || '—'}`;
+      ipData = await res.json();
     } catch {
-      ipText = 'IP məlumatı alınmadı (şəbəkə və ya CORS)';
+      ipData = { error: 'IP alınmadı' };
     }
 
-    updateInfo(geoText, ipText);
+    collected = {
+      timestamp: new Date().toISOString(),
+      ip: ipData,
+      location: locationData,
+      photo: null
+    };
+
+    render();
+    saveBtn.disabled = false;
 
   } catch (err) {
-    info.textContent = `Kamera icazəsi verilmədi və ya xəta baş verdi:\n${err.message}`;
+    output.textContent = 'Xəta: ' + err.message;
   }
 });
 
@@ -66,13 +73,26 @@ captureBtn.addEventListener('click', () => {
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
   canvas.getContext('2d').drawImage(video, 0, 0);
-  photo.src = canvas.toDataURL('image/jpeg', 0.92);
+  const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
+  photo.src = dataUrl;
   photo.hidden = false;
+  collected.photo = dataUrl;
+  render();
+});
+
+saveBtn.addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(collected, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `tools-data-${Date.now()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
 });
 
 stopBtn.addEventListener('click', () => {
   if (stream) {
-    stream.getTracks().forEach(track => track.stop());
+    stream.getTracks().forEach(t => t.stop());
     video.srcObject = null;
     video.classList.remove('active');
   }
@@ -80,9 +100,32 @@ stopBtn.addEventListener('click', () => {
   captureBtn.disabled = true;
   stopBtn.disabled = true;
   startBtn.disabled = false;
-  info.textContent = 'Kamera dayandırıldı.';
+  output.textContent = 'Dayandırıldı.';
 });
 
-function updateInfo(geo, ip) {
-  info.textContent = `${geo}\n\n${ip}`;
+function render() {
+  let text = `Vaxt: ${collected.timestamp}\n\n`;
+
+  if (collected.ip) {
+    text += `IP: ${collected.ip.ip || '—'}\n`;
+    text += `Ölkə: ${collected.ip.country_name || '—'}\n`;
+    text += `Şəhər: ${collected.ip.city || '—'}\n`;
+    text += `ISP: ${collected.ip.org || '—'}\n\n`;
+  }
+
+  if (collected.location) {
+    if (collected.location.error) {
+      text += `Yer: ${collected.location.error}\n`;
+    } else {
+      text += `Enlik: ${collected.location.latitude}\n`;
+      text += `Uzunluq: ${collected.location.longitude}\n`;
+      text += `Dəqiqlik: ±${Math.round(collected.location.accuracy)} m\n`;
+    }
+  }
+
+  if (collected.photo) {
+    text += `\nŞəkil: çəkilib (JSON-da base64 kimi saxlanır)`;
+  }
+
+  output.textContent = text;
 }
