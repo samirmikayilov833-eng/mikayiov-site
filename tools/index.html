@@ -1,1 +1,40 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tools • Kamera & Məlumat Testi</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Tools</h1>
+      <p class="subtitle">Kamera • Yer • IP test aləti</p>
+    </header>
 
+    <section class="card">
+      <h2>Kamera & Məlumat</h2>
+      <p class="desc">Bu alət yalnız test və simulyasiya məqsədilədir. Kameraya, yerə və IP məlumatına icazə verildikdə məlumatlar bu səhifədə göstəriləcək.</p>
+
+      <div class="buttons">
+        <button id="startBtn" class="btn primary">Kameranı başlat</button>
+        <button id="captureBtn" class="btn" disabled>Şəkil çək</button>
+        <button id="stopBtn" class="btn danger" disabled>Dayandır</button>
+      </div>
+
+      <div class="media-area">
+        <video id="video" autoplay playsinline></video>
+        <img id="photo" alt="Çəkilmiş şəkil" hidden>
+      </div>
+    </section>
+
+    <section class="card info-card">
+      <h2>Toplanan məlumatlar</h2>
+      <pre id="info">Hələ heç bir məlumat yoxdur. “Kameranı başlat” düyməsinə basın.</pre>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
